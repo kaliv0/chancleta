@@ -1,0 +1,12 @@
+#[meta]
+src = "util.commands"
+#src = "util"  # if exported via __init__ file
+#version = "0.1.0"
+
+
+[echo]
+version = "0.1.0"
+description = "Simple echo function"
+argument = { name = "text", help = "Some dummy text" }
+option = { name = "delimiter", short = "d", help = "use DELIM instead of TAB for field delimiter" }
+function = "echo"
