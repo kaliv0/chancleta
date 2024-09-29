@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "src": "util.commands",
+    "version": "0.1.0"
+  },
+  "echo": {
+    "description": "Simple echo function",
+    "function": "echo",
+    "arguments": [
+      {
+        "help": "Some dummy text",
+        "name": "text"
+      }
+    ],
+    "options": [
+      {
+        "help": "Some other dummy text",
+        "name": "other-text",
+        "short": "o"
+      },
+      {
+        "help": "use DELIM instead of TAB for field delimiter",
+        "name": "delimiter",
+        "short": "d"
+      }
+    ]
+  }
+}

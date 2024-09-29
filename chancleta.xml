@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <meta>
+        <src>util.commands</src>
+        <version>0.1.0</version>
+    </meta>
+    <echo>
+        <description>Simple echo function</description>
+        <function>echo</function>
+        <argument>
+            <help>Some dummy text</help>
+            <name>text</name>
+        </argument>
+        <option>
+            <help>Some other dummy text</help>
+            <name>other-text</name>
+            <short>o</short>
+        </option>
+        <option>
+            <help>use DELIM instead of TAB for field delimiter</help>
+            <name>delimiter</name>
+            <short>d</short>
+        </option>
+    </echo>
+</root>
