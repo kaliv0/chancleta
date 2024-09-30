@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <meta>
+        <prog>foo</prog>
         <src>util.commands</src>
         <version>0.1.0</version>
+        <description>Test my new flip flops</description>
     </meta>
     <echo>
         <description>Simple echo function</description>
         <function>echo</function>
-        <argument>
+        <help>echo func</help>
+        <arguments>
             <help>Some dummy text</help>
             <name>text</name>
-        </argument>
-        <option>
+        </arguments>
+        <options>
             <help>Some other dummy text</help>
             <name>other-text</name>
             <short>o</short>
-        </option>
-        <option>
+        </options>
+        <options>
             <help>use DELIM instead of TAB for field delimiter</help>
             <name>delimiter</name>
             <short>d</short>
-        </option>
+        </options>
     </echo>
+    <yes>
+        <description>Simple yes function</description>
+        <function>yes</function>
+        <help>yes func</help>
+        <arguments>
+            <help>Some dummy text</help>
+            <name>text</name>
+        </arguments>
+    </yes>
 </root>

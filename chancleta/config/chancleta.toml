@@ -1,17 +1,32 @@
 [meta]
 src = "util.commands"
-#src = "util"  # if exported via __init__ file
 version = "0.1.0"
+description="Test my new flip flops"
+prog = "foo"
+#help?
+#subparsers_help?
 
 
 [echo]
-#version = "0.1.0"
 description = "Simple echo function"
 arguments = [
+    # type, bool/store_true, nargs, range(min/max)
     { name = "text", help = "Some dummy text" },
 ]
 options = [
+    # default
     { name = "other-text", short = 'o', help = "Some other dummy text" },
     { name = "delimiter", short = "d", help = "use DELIM instead of TAB for field delimiter" }
 ]
 function = "echo"
+help = "echo func"
+
+
+
+[yes]
+description = "Simple yes function"
+arguments = [
+    { name = "text", help = "Some dummy text" },
+]
+function = "yes"
+help = "yes func"

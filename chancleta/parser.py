@@ -9,24 +9,34 @@ from importlib import import_module
 
 
 class Chancleta:
-    CONFIG_FILES = ["chancleta.toml", "chancleta.json", "chancleta.yaml", "chancleta.xml"]
+    # fmt: off
+    CONFIG_FILES = [
+        "chancleta.toml",
+        # "chancleta.json",
+        "chancleta.yaml",
+        "chancleta.xml"
+    ]
+    # fmt: on
 
-    MISSING_ERROR = "Missing key '{key}' in table '{table}'"
+    MISSING_TABLE_ERROR = "Missing mandatory 'meta' table"
+    MISSING_KEY_ERROR = "Missing key '{key}' in table '{table}'"
     NOT_LIST_ERROR = "'{key}' is not a list"
 
-    def __init__(self):
+    def __init__(self, cwd="./"):
+        self.cwd = cwd
         self.data = None
         self.config_type = None
 
     def read_config(self):
         for config in self.CONFIG_FILES:
-            if not os.path.exists(config):
+            config_path = os.path.join(self.cwd, config)
+            if not os.path.exists(config_path):
                 continue
-            if not os.path.getsize(config):
+            if not os.path.getsize(config_path):
                 return False
 
-            with open(config, "rb") as f:
-                _, extension = os.path.splitext(config)
+            with open(config_path, "rb") as f:
+                _, extension = os.path.splitext(config_path)
                 match extension:
                     case ".toml":
                         self.data = tomllib.load(f)
@@ -42,64 +52,73 @@ class Chancleta:
 
     def read_args(self):
         parser = argparse.ArgumentParser()
+        subparsers = parser.add_subparsers(help="sub-commands")
 
-        func_src = None
-        func_name = None
+        if "meta" not in self.data:  # TODO: not very optimal :(
+            raise KeyError(self.MISSING_TABLE_ERROR)
+
         for k, v in self.data.items():
             if not isinstance(v, dict):
                 raise TypeError("Top level tables are not supported")  # TODO: check terminology
 
             if k == "meta":
+                func_src = None
                 for sk, sv in v.items():
                     if sk == "src":
                         func_src = sv
-                    # TODO: read 'version' in same loop
+                    elif sk == "prog":
+                        parser.prog = sv
+                    elif sk == "version":
+                        parser.version = sv
+                    elif sk == "description":
+                        parser.description = sv
+
+                if func_src is None:
+                    raise KeyError(self.MISSING_KEY_ERROR.format(key="src", table="meta"))
                 continue
 
-            func_name = self.data[k].get("function", None)  # TODO: fix -> should be inside loop
+            func_name = v.get("function", None)
             if func_name is None:
-                raise KeyError(self.MISSING_ERROR.format(key="function", table=k))
+                raise KeyError(self.MISSING_KEY_ERROR.format(key="function", table=k))
+            func = getattr(import_module(func_src), func_name)  # noqa
 
+            # TODO: "help" etc should be optional
+            subparser = subparsers.add_parser(k, help=v["help"])
             for sk, sv in v.items():
-                # TODO: in xml these should singular
                 if sk == "arguments" or (self.config_type == "xml" and sk == "argument"):
                     if not isinstance(sv, list):
                         if self.config_type != "xml":
                             raise TypeError(self.NOT_LIST_ERROR.format(key="arguments", table=k))
-                        parser.add_argument(sv["name"])
+                        subparser.add_argument(sv["name"], help=sv["help"])
                     else:
                         for arg in sv:
-                            parser.add_argument(arg["name"])
+                            subparser.add_argument(arg["name"], help=arg["help"])
                 elif sk == "options" or (self.config_type == "xml" and sk == "option"):
                     if not isinstance(sv, list):
                         if self.config_type != "xml":
                             raise TypeError(self.NOT_LIST_ERROR.format(key="options", table=k))
-                        parser.add_argument(f"--{sv['name']}", f"-{sv['short']}", help=sv["help"])
+                        # TODO: split and incrementally concatenate strings
+                        subparser.add_argument(
+                            f"--{sv['name']}", f"-{sv['short']}", help=sv["help"]
+                        )
                     else:
-                        # print(func_src)
-                        func = getattr(import_module(func_src), func_name)
                         for opt in sv:
-                            # TODO: split and incrementally concatenate string
-                            parser.add_argument(
+                            subparser.add_argument(
                                 f"--{opt['name']}", f"-{opt['short']}", help=opt["help"]
                             )
 
-        if func_src is None:
-            raise KeyError(self.MISSING_ERROR.format(key="src", table="meta"))
+            subparser.set_defaults(func=func)
+        return parser.parse_args()
 
-        args = vars(parser.parse_args())
-        # pprint(vars(args))
-        params = {p: args[p] for p in inspect.signature(func).parameters}
-        # pprint(params)
+    @staticmethod
+    def run_func(args):
+        func = args.func
+        params = {p: getattr(args, p) for p in inspect.signature(func).parameters}
         func(**params)
 
     def parse(self):
         is_toml_file_valid = self.read_config()
         if not is_toml_file_valid:
             return
-        # pprint(self.data)
-        self.read_args()
-
-
-if __name__ == "__main__":
-    Chancleta().parse()
+        args = self.read_args()
+        self.run_func(args)

@@ -1,0 +1,26 @@
+meta:
+  src: util.commands
+  version: 0.1.0
+  description: Test my new flip flops
+  prog: foo
+echo:
+  description: Simple echo function
+  arguments:
+    - name: text
+      help: Some dummy text
+  options:
+    - name: other-text
+      short: o
+      help: Some other dummy text
+    - name: delimiter
+      short: d
+      help: use DELIM instead of TAB for field delimiter
+  function: echo
+  help: echo func
+'yes':
+  description: Simple yes function
+  arguments:
+    - name: text
+      help: Some dummy text
+  function: 'yes'
+  help: yes func

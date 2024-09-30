@@ -1,11 +1,14 @@
 {
   "meta": {
+    "description": "Test my new flip flops",
+    "prog": "foo",
     "src": "util.commands",
     "version": "0.1.0"
   },
   "echo": {
     "description": "Simple echo function",
     "function": "echo",
+    "help": "echo func",
     "arguments": [
       {
         "help": "Some dummy text",
@@ -22,6 +25,17 @@
         "help": "use DELIM instead of TAB for field delimiter",
         "name": "delimiter",
         "short": "d"
+      }
+    ]
+  },
+  "yes": {
+    "description": "Simple yes function",
+    "function": "yes",
+    "help": "yes func",
+    "arguments": [
+      {
+        "help": "Some dummy text",
+        "name": "text"
       }
     ]
   }
