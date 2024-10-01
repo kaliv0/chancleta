@@ -1,22 +1,22 @@
 [meta]
 src = "util.commands"
 version = "0.1.0"
-description="Test my new flip flops"
+description = "Test my new flip flops"
 prog = "foo"
 #help?
 #subparsers_help?
+#usage?
 
 
 [echo]
 description = "Simple echo function"
 arguments = [
-    # type, bool/store_true, nargs, range(min/max)
+    # type, store_multiple, nargs, range(min/max), const
     { name = "text", help = "Some dummy text" },
 ]
 options = [
-    # default
-    { name = "other-text", short = 'o', default="Panda", help = "Some other dummy text" },
-    { name = "delimiter", short = "d", default=", ", help = "use DELIM instead of TAB for field delimiter" }
+    { name = "other-text", short = "o", default = "Panda", dest = "other", help = "Some other dummy text" },
+    { name = "delimiter", default = ", ", help = "use DELIM instead of TAB for field delimiter" }
 ]
 function = "echo"
 help = "echo func"
@@ -27,6 +27,9 @@ help = "echo func"
 description = "Simple yes function"
 arguments = [
     { name = "text", help = "Some dummy text" },
+]
+options = [
+    { name = "should-repeat", short = "r", is_flag = "True", help = " should repeat text 5 times" }
 ]
 function = "yes"
 help = "yes func"
