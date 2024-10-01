@@ -12,7 +12,7 @@ class Chancleta:
     # fmt: off
     CONFIG_FILES = [
         "chancleta.toml",
-        # "chancleta.json",
+        "chancleta.json",
         "chancleta.yaml",
         "chancleta.xml"
     ]
@@ -54,7 +54,7 @@ class Chancleta:
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers(help="sub-commands")
 
-        if "meta" not in self.data:  # TODO: not very optimal :(
+        if "meta" not in self.data:
             raise KeyError(self.MISSING_TABLE_ERROR)
 
         for k, v in self.data.items():
@@ -64,14 +64,15 @@ class Chancleta:
             if k == "meta":
                 func_src = None
                 for sk, sv in v.items():
-                    if sk == "src":
-                        func_src = sv
-                    elif sk == "prog":
-                        parser.prog = sv
-                    elif sk == "version":
-                        parser.version = sv
-                    elif sk == "description":
-                        parser.description = sv
+                    match sk:
+                        case "src":
+                            func_src = sv
+                        case "prog":
+                            parser.prog = sv
+                        case "version":
+                            parser.version = sv
+                        case "description":
+                            parser.description = sv
 
                 if func_src is None:
                     raise KeyError(self.MISSING_KEY_ERROR.format(key="src", table="meta"))
@@ -85,6 +86,7 @@ class Chancleta:
             # TODO: "help" etc should be optional
             subparser = subparsers.add_parser(k, help=v["help"])
             for sk, sv in v.items():
+                # TODO: simplify -> if sk in ("argument", "arguments")
                 if sk == "arguments" or (self.config_type == "xml" and sk == "argument"):
                     if not isinstance(sv, list):
                         if self.config_type != "xml":
@@ -99,12 +101,18 @@ class Chancleta:
                             raise TypeError(self.NOT_LIST_ERROR.format(key="options", table=k))
                         # TODO: split and incrementally concatenate strings
                         subparser.add_argument(
-                            f"--{sv['name']}", f"-{sv['short']}", help=sv["help"]
+                            f"--{sv['name']}",
+                            f"-{sv['short']}",
+                            default=sv["default"],
+                            help=sv["help"],
                         )
                     else:
                         for opt in sv:
                             subparser.add_argument(
-                                f"--{opt['name']}", f"-{opt['short']}", help=opt["help"]
+                                f"--{opt['name']}",
+                                f"-{opt['short']}",
+                                default=opt["default"],
+                                help=opt["help"],
                             )
 
             subparser.set_defaults(func=func)

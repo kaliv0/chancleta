@@ -15,8 +15,8 @@ arguments = [
 ]
 options = [
     # default
-    { name = "other-text", short = 'o', help = "Some other dummy text" },
-    { name = "delimiter", short = "d", help = "use DELIM instead of TAB for field delimiter" }
+    { name = "other-text", short = 'o', default="Panda", help = "Some other dummy text" },
+    { name = "delimiter", short = "d", default=", ", help = "use DELIM instead of TAB for field delimiter" }
 ]
 function = "echo"
 help = "echo func"
