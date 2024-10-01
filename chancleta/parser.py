@@ -30,12 +30,14 @@ class Chancleta:
 
     def read_config(self):
         for config in self.CONFIG_FILES:
+            # validate file
             config_path = os.path.join(self.cwd, config)
             if not os.path.exists(config_path):
                 continue
             if not os.path.getsize(config_path):
                 return False
 
+            # read file
             with open(config_path, "rb") as f:
                 _, extension = os.path.splitext(config_path)
                 match extension:
@@ -62,6 +64,7 @@ class Chancleta:
             if not isinstance(v, dict):
                 raise TypeError("Top level tables are not supported")  # TODO: check terminology
 
+            # read 'meta' table
             if k == "meta":
                 func_src = None
                 for sk, sv in v.items():
@@ -79,15 +82,12 @@ class Chancleta:
                     raise KeyError(self.MISSING_KEY_IN_TABLE_ERROR.format(key="src", table="meta"))
                 continue
 
-            func_name = v.get("function", None)
-            if func_name is None:
-                raise KeyError(self.MISSING_KEY_IN_TABLE_ERROR.format(key="function", table=k))
-            func = getattr(import_module(func_src), func_name)  # noqa
-
+            # configure sub-commands
             subparser = subparsers.add_parser(k, help=v.get("help", None))
             for sk, sv in v.items():
                 if sk in ("argument", "arguments"):
                     if not isinstance(sv, list):
+                        # for xml only
                         if self.config_type != "xml":
                             raise TypeError(self.NOT_LIST_ERROR.format(key="arguments", table=k))
                         if not (name := sv.get("name", None)):
@@ -108,6 +108,7 @@ class Chancleta:
                             )
                 elif sk in ("option", "options"):
                     if not isinstance(sv, list):
+                        # for xml only
                         if self.config_type != "xml":
                             raise TypeError(self.NOT_LIST_ERROR.format(key="options", table=k))
                         if not (name := sv.get("name", None)):
@@ -135,6 +136,11 @@ class Chancleta:
                 # TODO: implement
                 elif sk == "description":
                     subparser.description = sv
+
+            func_name = v.get("function", None)
+            if func_name is None:
+                raise KeyError(self.MISSING_KEY_IN_TABLE_ERROR.format(key="function", table=k))
+            func = getattr(import_module(func_src), func_name)  # noqa
             subparser.set_defaults(func=func)
         return parser.parse_args()
 
