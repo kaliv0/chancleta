@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "chancleta"
 version = "0.1.2"
-description = "Python library for creating Command Line Interfaces via configuration files: .toml, json, .yaml and .xml (for the bold ones)"
+description = "Python library for creating Command Line Interfaces via configuration files. Supports .toml, json, .yaml and .xml (for the bold ones)"
 authors = ["kaliv0 <kaloyan.ivanov88@gmail.com>"]
 readme = "README.md"
 license = {file = "LICENSE"}
