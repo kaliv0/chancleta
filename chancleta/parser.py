@@ -25,7 +25,7 @@ class Chancleta:
         self.func_args = None
 
     # ### config ###
-    def validate_read_config(self):
+    def _validate_read_config(self):
         for config in self.CONFIG_FILES:
             config_path = os.path.join(self.cwd, config)
             if not os.path.exists(config_path):
@@ -59,7 +59,7 @@ class Chancleta:
         return bool(self.data)
 
     # ### CLI ###
-    def read_args(self):
+    def _read_args(self):
         import argparse
         import importlib
 
@@ -128,9 +128,9 @@ class Chancleta:
         }
         if not is_option:
             args = (name,)
+            kwargs["action"] = "store"
         else:
             args = (f"--{name}", f"-{sv['short'] if sv.get('short', None) else name[0]}")
-
             kwargs.update(
                 {
                     "default": sv.get("default", None),
@@ -139,9 +139,14 @@ class Chancleta:
                 }
             )
         # for arguments and options -> if not booleans
-        if not kwargs.get("action", None):
-            kwargs["type"] = getattr(builtins, arg_type) if (arg_type := sv.get("type", None)) else None
-            kwargs["nargs"] = sv.get("nargs", None)
+        if kwargs["action"] == "store":
+            kwargs.update(
+                {
+                    "type": getattr(builtins, arg_type) if (arg_type := sv.get("type", None)) else None,
+                    "nargs": sv.get("nargs", None),
+                    "choices": sv.get("choices", None),
+                }
+            )
         subparser.add_argument(*args, **kwargs)
 
     @staticmethod
@@ -151,10 +156,10 @@ class Chancleta:
                 return "store_true"
             case "False":
                 return "store_false"
-        return None
+        return "store"
 
     # ### run ###
-    def run_func(self):
+    def _run_func(self):
         import inspect
 
         func = self.func_args.func
@@ -162,7 +167,7 @@ class Chancleta:
         func(**params)
 
     def parse(self):
-        if not self.validate_read_config():
+        if not self._validate_read_config():
             return
-        self.read_args()
-        self.run_func()
+        self._read_args()
+        self._run_func()

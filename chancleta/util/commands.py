@@ -16,3 +16,7 @@ def no(text, other, should_log):
 
     if other:
         print(" ".join(other))
+
+
+def maybe(number, other):
+    print(f"{number} => {other}")
