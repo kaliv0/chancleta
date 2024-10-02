@@ -91,7 +91,6 @@ class Chancleta:
                 raise KeyError(self.MISSING_TABLE_KEY_ERROR.format(key="function", table=k))
             subparser.set_defaults(func=getattr(importlib.import_module(self.func_src), func_name))  # noqa
         self.func_args = self.parser.parse_args()
-        print(42)
 
     # ### read 'meta' ###
     def _read_meta_table(self, k, v):
@@ -129,11 +128,19 @@ class Chancleta:
             args = (name,)
         else:
             args = (f"--{name}", f"-{sv['short'] if sv.get('short', None) else name[0]}")
+
+            flag_action = "store"
+            match sv.get("is_flag", None):
+                case "True":
+                    flag_action = "store_true"
+                case "False":
+                    flag_action = "store_false"
+
             kwargs.update(
                 {
                     "default": sv.get("default", None),
                     "dest": sv.get("dest", None),  # dest works only for options
-                    "action": "store_true" if sv.get("is_flag", None) == "True" else "store",
+                    "action": flag_action,
                 }
             )
             if kwargs["action"] == "store":

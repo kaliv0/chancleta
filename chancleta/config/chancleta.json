@@ -17,7 +17,8 @@
       },
       {
         "help": "Final mark",
-        "name": "mark"
+        "name": "mark",
+        "type": "str"
       }
     ],
     "options": [
@@ -32,8 +33,30 @@
         "default": ", ",
         "help": "use DELIM instead of TAB for field delimiter",
         "name": "delimiter"
+      },
+      {
+        "default": 42,
+        "help": "some random number to make things pretty",
+        "name": "num",
+        "type": "int"
       }
     ]
+  },
+  "no": {
+    "description": "Simple no function",
+    "function": "no",
+    "help": "no func",
+    "argument": {
+      "help": "Some dummy text",
+      "name": "text"
+    },
+    "option": {
+      "default": true,
+      "help": "should not log or else...",
+      "is_flag": "False",
+      "name": "should-log",
+      "short": "l"
+    }
   },
   "yes": {
     "description": "Simple yes function",
@@ -44,7 +67,7 @@
       "name": "text"
     },
     "option": {
-      "help": " should repeat text 5 times",
+      "help": "should repeat text 5 times",
       "is_flag": "True",
       "name": "should-repeat",
       "short": "r"

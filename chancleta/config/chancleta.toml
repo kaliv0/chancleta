@@ -9,23 +9,30 @@ usage = "Take that jive Jack, put it in your pocket 'til I get back"
 [echo]
 description = "Simple echo function"
 arguments = [
-    # store_multiple, nargs, range(min/max), const, choices, append (dest=collection)
+    # nargs, range(min/max), const, choices, append (dest=collection), prog in subparsers help??
     { name = "text", help = "Some dummy text" },
     { name = "mark", type = "str", help = "Final mark" },
 ]
 options = [
     { name = "other-text", short = "o", default = "Panda", dest = "other", help = "Some other dummy text" },
     { name = "delimiter", default = ", ", help = "use DELIM instead of TAB for field delimiter" },
-    { name = "num", default = 42, type = "int", help = "some ronadom number to make things pretty" }
+    { name = "num", default = 42, type = "int", help = "some random number to make things pretty" }
 ]
 function = "echo"
 help = "echo func"
 
 
-
 [yes]
 description = "Simple yes function"
 argument = { name = "text", help = "Some dummy text" }
-option = { name = "should-repeat", short = "r", is_flag = "True", help = " should repeat text 5 times" }
+option = { name = "should-repeat", short = "r", is_flag = "True", help = "should repeat text 5 times" }
 function = "yes"
 help = "yes func"
+
+
+[no]
+description = "Simple no function"
+argument = { name = "text", help = "Some dummy text" }
+option = { name = "should-log", short = "l", is_flag = "False", default = true, help = "should not log or else..." }
+function = "no"
+help = "no func"

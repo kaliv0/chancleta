@@ -18,6 +18,7 @@
         <arguments>
             <help>Final mark</help>
             <name>mark</name>
+            <type>str</type>
         </arguments>
         <options>
             <default>Panda</default>
@@ -31,7 +32,29 @@
             <help>use DELIM instead of TAB for field delimiter</help>
             <name>delimiter</name>
         </options>
+        <options>
+            <default>42</default>
+            <help>some ronadom number to make things pretty</help>
+            <name>num</name>
+            <type>int</type>
+        </options>
     </echo>
+    <no>
+        <description>Simple no function</description>
+        <function>no</function>
+        <help>no func</help>
+        <argument>
+            <help>Some dummy text</help>
+            <name>text</name>
+        </argument>
+        <option>
+            <default>true</default>
+            <help>should not log or else...</help>
+            <is_flag>False</is_flag>
+            <name>should-log</name>
+            <short>l</short>
+        </option>
+    </no>
     <yes>
         <description>Simple yes function</description>
         <function>yes</function>

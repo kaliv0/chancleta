@@ -6,3 +6,10 @@ def yes(text, should_repeat):
     times = 5 if should_repeat else 2
     for _ in range(times):
         print(text)
+
+
+def no(text, should_log):
+    if should_log:
+        print(text)
+    else:
+        print("Chancleta samurai")
