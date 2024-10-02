@@ -2,7 +2,7 @@ echo:
 test with "echo hello ! -d ", " -o panda -n 33"
 
 yes:
-    "yes hello -r"
+  "yes hello -r"
 
 no:
-    "no hi there -o John Doe -l"
+  "no hi there -o John Doe -l"
