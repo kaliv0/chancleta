@@ -50,7 +50,7 @@
         <option>
             <default>true</default>
             <help>should not log or else...</help>
-            <is_flag>False</is_flag>
+            <flag>False</flag>
             <name>should-log</name>
             <short>l</short>
         </option>
@@ -65,7 +65,7 @@
         </argument>
         <option>
             <help>should repeat text 5 times</help>
-            <is_flag>True</is_flag>
+            <flag>True</flag>
             <name>should-repeat</name>
             <short>r</short>
         </option>

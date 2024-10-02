@@ -53,7 +53,7 @@
     "option": {
       "default": true,
       "help": "should not log or else...",
-      "is_flag": "False",
+      "flag": "False",
       "name": "should-log",
       "short": "l"
     }
@@ -68,7 +68,7 @@
     },
     "option": {
       "help": "should repeat text 5 times",
-      "is_flag": "True",
+      "flag": "True",
       "name": "should-repeat",
       "short": "r"
     }

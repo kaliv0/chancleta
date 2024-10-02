@@ -9,7 +9,7 @@ usage = "Take that jive Jack, put it in your pocket 'til I get back"
 [echo]
 description = "Simple echo function"
 arguments = [
-    # nargs, range(min/max), const, choices, append (dest=collection), prog in subparsers help??
+    # range(min/max), choices, append (dest=collection), metavar?
     { name = "text", help = "Some dummy text" },
     { name = "mark", type = "str", help = "Final mark" },
 ]
@@ -20,19 +20,23 @@ options = [
 ]
 function = "echo"
 help = "echo func"
+prog = "foo"
 
 
 [yes]
 description = "Simple yes function"
 argument = { name = "text", help = "Some dummy text" }
-option = { name = "should-repeat", short = "r", is_flag = "True", help = "should repeat text 5 times" }
+option = { name = "should-repeat", short = "r", flag = "True", help = "should repeat text 5 times" }
 function = "yes"
 help = "yes func"
 
 
 [no]
 description = "Simple no function"
-argument = { name = "text", help = "Some dummy text" }
-option = { name = "should-log", short = "l", is_flag = "False", default = true, help = "should not log or else..." }
+argument = { name = "text", nargs="+", help = "Some dummy text" }
+options = [
+    { name = "should-log", short = "l", flag = "False", default = true, help = "should not log or else..." },
+    { name = "other", nargs="+", help = "Some dummy text" }
+]
 function = "no"
 help = "no func"

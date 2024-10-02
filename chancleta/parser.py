@@ -77,7 +77,9 @@ class Chancleta:
                 self._read_meta_table(k, v)
                 continue
             # NB: if we don't pass 'help' as kwarg here and add it later as attribute it gets ignored for some reason?!
-            subparser = self.subparsers.add_parser(k, help=v.get("help", None))
+            subparser = self.subparsers.add_parser(
+                k, help=v.get("help", None), prog=self.parser.prog
+            )  # TODO: check if manually setting 'prog' is necessary
             for sk, sv in v.items():
                 match sk:
                     case "argument" | "arguments":
@@ -129,24 +131,27 @@ class Chancleta:
         else:
             args = (f"--{name}", f"-{sv['short'] if sv.get('short', None) else name[0]}")
 
-            flag_action = "store"
-            match sv.get("is_flag", None):
-                case "True":
-                    flag_action = "store_true"
-                case "False":
-                    flag_action = "store_false"
-
             kwargs.update(
                 {
                     "default": sv.get("default", None),
-                    "dest": sv.get("dest", None),  # dest works only for options
-                    "action": flag_action,
+                    "dest": sv.get("dest", None),  # works only for options
+                    "action": self._flag_action(sv),
                 }
             )
-            if kwargs["action"] == "store":
-                # NB: you can pass 'type' only if 'action'='store'- otherwise Exception is raised
-                kwargs["type"] = getattr(builtins, arg_type) if (arg_type := sv.get("type", None)) else None
+        # for arguments and options -> if not booleans
+        if not kwargs.get("action", None):
+            kwargs["type"] = getattr(builtins, arg_type) if (arg_type := sv.get("type", None)) else None
+            kwargs["nargs"] = sv.get("nargs", None)
         subparser.add_argument(*args, **kwargs)
+
+    @staticmethod
+    def _flag_action(sv):
+        match sv.get("flag", None):
+            case "True":
+                return "store_true"
+            case "False":
+                return "store_false"
+        return None
 
     # ### run ###
     def run_func(self):

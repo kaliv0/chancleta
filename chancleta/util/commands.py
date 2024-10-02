@@ -8,8 +8,11 @@ def yes(text, should_repeat):
         print(text)
 
 
-def no(text, should_log):
+def no(text, other, should_log):
     if should_log:
-        print(text)
+        print("-".join(text))
     else:
         print("Chancleta samurai")
+
+    if other:
+        print(" ".join(other))
