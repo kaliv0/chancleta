@@ -4,7 +4,7 @@
 
 # chancleta
 
-![Python 3.x](https://img.shields.io/badge/python-3.11-blue?style=flat-square&logo=Python&logoColor=white)
+![Python 3.x](https://img.shields.io/badge/python-3.12-blue?style=flat-square&logo=Python&logoColor=white)
 [![PyPI](https://img.shields.io/pypi/v/chancleta.svg)](https://pypi.org/project/chancleta/)
 
 <br>Python library for creating <b>command line interfaces</b> in a composable way via configuration files.
