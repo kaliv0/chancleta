@@ -71,7 +71,7 @@ class Chancleta:
 
         for k, v in self.data.items():
             if not isinstance(v, dict):
-                raise TypeError("Top level tables are not supported")  # TODO: check terminology
+                raise TypeError("Top level tables are not supported")
 
             if k == "meta":
                 self._read_meta_table(k, v)
@@ -117,11 +117,12 @@ class Chancleta:
             self._add_subparser_arg(k, sk, sv, subparser, is_option)
 
     def _add_subparser_arg(self, k, sk, sv, subparser, is_option):
+        import builtins
+
         if not (name := sv.get("name", None)):
             raise KeyError(self.MISSING_PARAM_KEY_ERROR.format(key="name", parameter=sk, table=k))
         kwargs = {
             "help": sv.get("help", None),
-            "action": "store_true" if sv.get("is_flag", None) == "True" else None,
         }
         if not is_option:
             args = (name,)
@@ -130,9 +131,13 @@ class Chancleta:
             kwargs.update(
                 {
                     "default": sv.get("default", None),
-                    "dest": sv.get("dest", None),  # TODO: dest works only for options
+                    "dest": sv.get("dest", None),  # dest works only for options
+                    "action": "store_true" if sv.get("is_flag", None) == "True" else "store",
                 }
             )
+            if kwargs["action"] == "store":
+                # NB: you can pass 'type' only if 'action'='store'- otherwise Exception is raised
+                kwargs["type"] = getattr(builtins, arg_type) if (arg_type := sv.get("type", None)) else None
         subparser.add_argument(*args, **kwargs)
 
     # ### run ###

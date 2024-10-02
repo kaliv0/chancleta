@@ -1,5 +1,5 @@
-def echo(text, other, delimiter, mark):
-    print(f"{text}{delimiter}{other}{mark}")
+def echo(text, other, delimiter, num, mark):
+    print(f"{text}{delimiter}{other}{num}{mark}")
 
 
 def yes(text, should_repeat):

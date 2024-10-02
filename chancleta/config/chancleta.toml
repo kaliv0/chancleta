@@ -9,13 +9,14 @@ usage = "Take that jive Jack, put it in your pocket 'til I get back"
 [echo]
 description = "Simple echo function"
 arguments = [
-    # type, store_multiple, nargs, range(min/max), const
+    # store_multiple, nargs, range(min/max), const, choices
     { name = "text", help = "Some dummy text" },
-    { name = "mark", help = "Final mark" },
+    { name = "mark", type = "str", help = "Final mark" },
 ]
 options = [
     { name = "other-text", short = "o", default = "Panda", dest = "other", help = "Some other dummy text" },
-    { name = "delimiter", default = ", ", help = "use DELIM instead of TAB for field delimiter" }
+    { name = "delimiter", default = ", ", help = "use DELIM instead of TAB for field delimiter" },
+    { name = "num", default = 42, type = "int", help = "some ronadom number to make things pretty" }
 ]
 function = "echo"
 help = "echo func"
