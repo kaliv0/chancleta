@@ -3,6 +3,7 @@
     "description": "Test my new flip flops",
     "prog": "foo",
     "src": "util.commands",
+    "usage": "Take that jive Jack, put it in your pocket 'til I get back",
     "version": "0.1.0"
   },
   "echo": {
@@ -13,18 +14,24 @@
       {
         "help": "Some dummy text",
         "name": "text"
+      },
+      {
+        "help": "Final mark",
+        "name": "mark"
       }
     ],
     "options": [
       {
+        "default": "Panda",
+        "dest": "other",
         "help": "Some other dummy text",
         "name": "other-text",
         "short": "o"
       },
       {
+        "default": ", ",
         "help": "use DELIM instead of TAB for field delimiter",
-        "name": "delimiter",
-        "short": "d"
+        "name": "delimiter"
       }
     ]
   },
@@ -32,11 +39,15 @@
     "description": "Simple yes function",
     "function": "yes",
     "help": "yes func",
-    "arguments": [
-      {
-        "help": "Some dummy text",
-        "name": "text"
-      }
-    ]
+    "argument": {
+      "help": "Some dummy text",
+      "name": "text"
+    },
+    "option": {
+      "help": " should repeat text 5 times",
+      "is_flag": "True",
+      "name": "should-repeat",
+      "short": "r"
+    }
   }
 }

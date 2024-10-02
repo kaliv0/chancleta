@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <meta>
+        <description>Test my new flip flops</description>
         <prog>foo</prog>
         <src>util.commands</src>
+        <usage>Take that jive Jack, put it in your pocket 'til I get back</usage>
         <version>0.1.0</version>
-        <description>Test my new flip flops</description>
     </meta>
     <echo>
         <description>Simple echo function</description>
@@ -14,24 +15,36 @@
             <help>Some dummy text</help>
             <name>text</name>
         </arguments>
+        <arguments>
+            <help>Final mark</help>
+            <name>mark</name>
+        </arguments>
         <options>
+            <default>Panda</default>
+            <dest>other</dest>
             <help>Some other dummy text</help>
             <name>other-text</name>
             <short>o</short>
         </options>
         <options>
+            <default>,</default>
             <help>use DELIM instead of TAB for field delimiter</help>
             <name>delimiter</name>
-            <short>d</short>
         </options>
     </echo>
     <yes>
         <description>Simple yes function</description>
         <function>yes</function>
         <help>yes func</help>
-        <arguments>
+        <argument>
             <help>Some dummy text</help>
             <name>text</name>
-        </arguments>
+        </argument>
+        <option>
+            <help>should repeat text 5 times</help>
+            <is_flag>True</is_flag>
+            <name>should-repeat</name>
+            <short>r</short>
+        </option>
     </yes>
 </root>
