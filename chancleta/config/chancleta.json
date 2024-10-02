@@ -1,10 +1,10 @@
 {
   "meta": {
-    "description": "Test my new flip flops",
-    "prog": "foo",
     "src": "util.commands",
-    "usage": "Take that jive Jack, put it in your pocket 'til I get back",
-    "version": "0.1.0"
+    "prog": "foo",
+    "version": "0.1.0",
+    "description": "Test my new flip flops",
+    "usage": "Take that jive Jack, put it in your pocket 'til I get back"
   },
   "echo": {
     "description": "Simple echo function",
@@ -42,20 +42,54 @@
       }
     ]
   },
+  "maybe": {
+    "description": "Simple maybe function",
+    "function": "maybe",
+    "help": "maybe func",
+    "argument": {
+      "choices": [
+        3,
+        5,
+        8
+      ],
+      "help": "Some meaningless number",
+      "name": "number",
+      "type": "int"
+    },
+    "option": {
+      "choices": [
+        1,
+        2
+      ],
+      "dest": "other",
+      "help": "Other marvelous number",
+      "name": "other-number",
+      "nargs": "*",
+      "type": "int"
+    }
+  },
   "no": {
     "description": "Simple no function",
     "function": "no",
     "help": "no func",
+    "options": [
+      {
+        "default": true,
+        "flag": "False",
+        "help": "should not log or else...",
+        "name": "should-log",
+        "short": "l"
+      },
+      {
+        "help": "Some dummy text",
+        "name": "other",
+        "nargs": "+"
+      }
+    ],
     "argument": {
       "help": "Some dummy text",
-      "name": "text"
-    },
-    "option": {
-      "default": true,
-      "help": "should not log or else...",
-      "flag": "False",
-      "name": "should-log",
-      "short": "l"
+      "name": "text",
+      "nargs": "+"
     }
   },
   "yes": {
@@ -67,8 +101,8 @@
       "name": "text"
     },
     "option": {
-      "help": "should repeat text 5 times",
       "flag": "True",
+      "help": "should repeat text 5 times",
       "name": "should-repeat",
       "short": "r"
     }

@@ -9,7 +9,6 @@ usage = "Take that jive Jack, put it in your pocket 'til I get back"
 [echo]
 description = "Simple echo function"
 arguments = [
-    # range(min/max),
     { name = "text", help = "Some dummy text" },
     { name = "mark", type = "str", help = "Final mark" },
 ]
@@ -20,7 +19,6 @@ options = [
 ]
 function = "echo"
 help = "echo func"
-prog = "foo"
 
 
 [yes]

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <meta>
-        <description>Test my new flip flops</description>
-        <prog>foo</prog>
         <src>util.commands</src>
-        <usage>Take that jive Jack, put it in your pocket 'til I get back</usage>
+        <prog>foo</prog>
         <version>0.1.0</version>
+        <description>Test my new flip flops</description>
+        <usage>Take that jive Jack, put it in your pocket 'til I get back</usage>
     </meta>
     <echo>
         <description>Simple echo function</description>
@@ -34,26 +34,54 @@
         </options>
         <options>
             <default>42</default>
-            <help>some ronadom number to make things pretty</help>
+            <help>some random number to make things pretty</help>
             <name>num</name>
             <type>int</type>
         </options>
     </echo>
+    <maybe>
+        <description>Simple maybe function</description>
+        <function>maybe</function>
+        <help>maybe func</help>
+        <argument>
+            <choices>3</choices>
+            <choices>5</choices>
+            <choices>8</choices>
+            <help>Some meaningless number</help>
+            <name>number</name>
+            <type>int</type>
+        </argument>
+        <option>
+            <choices>1</choices>
+            <choices>2</choices>
+            <dest>other</dest>
+            <help>Other marvelous number</help>
+            <name>other-number</name>
+            <nargs>*</nargs>
+            <type>int</type>
+        </option>
+    </maybe>
     <no>
         <description>Simple no function</description>
         <function>no</function>
         <help>no func</help>
+        <options>
+            <default>true</default>
+            <flag>False</flag>
+            <help>should not log or else...</help>
+            <name>should-log</name>
+            <short>l</short>
+        </options>
+        <options>
+            <help>Some dummy text</help>
+            <name>other</name>
+            <nargs>+</nargs>
+        </options>
         <argument>
             <help>Some dummy text</help>
             <name>text</name>
+            <nargs>+</nargs>
         </argument>
-        <option>
-            <default>true</default>
-            <help>should not log or else...</help>
-            <flag>False</flag>
-            <name>should-log</name>
-            <short>l</short>
-        </option>
     </no>
     <yes>
         <description>Simple yes function</description>
@@ -64,8 +92,8 @@
             <name>text</name>
         </argument>
         <option>
-            <help>should repeat text 5 times</help>
             <flag>True</flag>
+            <help>should repeat text 5 times</help>
             <name>should-repeat</name>
             <short>r</short>
         </option>
