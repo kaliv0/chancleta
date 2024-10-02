@@ -3,9 +3,7 @@ src = "util.commands"
 version = "0.1.0"
 description = "Test my new flip flops"
 prog = "foo"
-#help?
-#subparsers_help?
-#usage?
+usage = "Take that jive Jack, put it in your pocket 'til I get back"
 
 
 [echo]
@@ -13,6 +11,7 @@ description = "Simple echo function"
 arguments = [
     # type, store_multiple, nargs, range(min/max), const
     { name = "text", help = "Some dummy text" },
+    { name = "mark", help = "Final mark" },
 ]
 options = [
     { name = "other-text", short = "o", default = "Panda", dest = "other", help = "Some other dummy text" },
@@ -25,11 +24,7 @@ help = "echo func"
 
 [yes]
 description = "Simple yes function"
-arguments = [
-    { name = "text", help = "Some dummy text" },
-]
-options = [
-    { name = "should-repeat", short = "r", is_flag = "True", help = " should repeat text 5 times" }
-]
+argument = { name = "text", help = "Some dummy text" }
+option = { name = "should-repeat", short = "r", is_flag = "True", help = " should repeat text 5 times" }
 function = "yes"
 help = "yes func"
