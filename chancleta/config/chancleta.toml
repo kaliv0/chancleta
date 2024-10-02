@@ -9,7 +9,7 @@ usage = "Take that jive Jack, put it in your pocket 'til I get back"
 [echo]
 description = "Simple echo function"
 arguments = [
-    # store_multiple, nargs, range(min/max), const, choices
+    # store_multiple, nargs, range(min/max), const, choices, append (dest=collection)
     { name = "text", help = "Some dummy text" },
     { name = "mark", type = "str", help = "Final mark" },
 ]

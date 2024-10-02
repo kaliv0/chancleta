@@ -91,6 +91,7 @@ class Chancleta:
                 raise KeyError(self.MISSING_TABLE_KEY_ERROR.format(key="function", table=k))
             subparser.set_defaults(func=getattr(importlib.import_module(self.func_src), func_name))  # noqa
         self.func_args = self.parser.parse_args()
+        print(42)
 
     # ### read 'meta' ###
     def _read_meta_table(self, k, v):
@@ -101,12 +102,12 @@ class Chancleta:
             match sk:
                 case "prog":
                     self.parser.prog = sv
-                case "version":
-                    self.parser.version = sv
                 case "description":
                     self.parser.description = sv
                 case "usage":
                     self.parser.usage = sv
+                case "version":
+                    self.parser.add_argument("--version", action="version", version=sv)
 
     # ### handle sub-commands ###
     def _handle_subparser_args(self, k, sk, subparser, sv, is_option=False):
