@@ -1,0 +1,16 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=68.2.0", "wheel"]
+
+[project]
+authors = [
+  {name = "Kaloyan Ivanov", email = "kaloyan.ivanov88@gmail.com"},
+]
+description = ""
+name = "testoo"
+version = "0.1.0"
+
+requires-python = ">=3.12"
+
+[project.scripts]
+chl = "testoo.__main__:main"

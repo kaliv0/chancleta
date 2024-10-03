@@ -2,20 +2,16 @@ import os
 
 
 class Chancleta:
-    # fmt: off
-    CONFIG_FILES = [
-        "chancleta.toml",
-        "chancleta.json",
-        "chancleta.yaml",
-        "chancleta.xml"
-    ]
-    # fmt: on
+    CONFIG_FILES = ["chancleta.toml", "chancleta.json", "chancleta.yaml", "chancleta.xml"]
 
+    EMPTY_CONFIG_ERROR = "Empty configuration file {config_path}"
+    MISSING_CONFIG_ERROR = "Missing configuration file in {cwd}"
+    NON_SUPPORTED_TABLE_ERROR = "Top level tables are not supported"
     MISSING_TABLE_ERROR = "Missing mandatory 'meta' table"
     MISSING_TABLE_KEY_ERROR = "Missing key '{key}' in table '{table}'"
     MISSING_PARAM_KEY_ERROR = "Missing key '{key}' for '{parameter}' parameter in table '{table}'"
 
-    def __init__(self, cwd="./"):
+    def __init__(self, cwd=os.getcwd()):
         self.cwd = cwd
         self.data = None
         self.config_type = None
@@ -25,15 +21,15 @@ class Chancleta:
         self.func_args = None
 
     # ### config ###
-    def _validate_read_config(self):
+    def _handle_config(self):
         for config in self.CONFIG_FILES:
             config_path = os.path.join(self.cwd, config)
             if not os.path.exists(config_path):
                 continue
             if not os.path.getsize(config_path):
-                return False
+                raise ValueError(self.EMPTY_CONFIG_ERROR.format(config_path=config_path))
             return self._read_file(config_path)
-        return False
+        raise ValueError(self.MISSING_CONFIG_ERROR.format(cwd=self.cwd))
 
     def _read_file(self, config_path):
         with open(config_path, "rb") as f:
@@ -71,12 +67,12 @@ class Chancleta:
 
         for table_name, table_data in self.data.items():
             if not isinstance(table_data, dict):
-                raise TypeError("Top level tables are not supported")
+                raise SyntaxError(self.NON_SUPPORTED_TABLE_ERROR)
 
             if table_name == "meta":
                 self._read_meta_table(table_name, table_data)
                 continue
-            # NB: if we don't pass 'help' as kwarg here and add it later as attribute it gets ignored for some reason?!
+            # NB: if we don't pass 'help' as kwarg here and add it later as attribute it gets ignored
             subparser = self.subparsers.add_parser(
                 table_name, help=table_data.get("help", None), prog=self.parser.prog
             )
@@ -85,7 +81,9 @@ class Chancleta:
                     case "argument" | "arguments":
                         self._handle_subparser_args(table_name, entry_name, entry_data, subparser)
                     case "option" | "options":
-                        self._handle_subparser_args(table_name, entry_name, entry_data, subparser, is_option=True)
+                        self._handle_subparser_args(
+                            table_name, entry_name, entry_data, subparser, is_option=True
+                        )
                     case "description":
                         subparser.description = entry_data
 
@@ -122,7 +120,9 @@ class Chancleta:
         import builtins
 
         if not (name := entry_data.get("name", None)):
-            raise KeyError(self.MISSING_PARAM_KEY_ERROR.format(key="name", parameter=entry_name, table=table_name))
+            raise KeyError(
+                self.MISSING_PARAM_KEY_ERROR.format(key="name", parameter=entry_name, table=table_name)
+            )
         kwargs = {
             "help": entry_data.get("help", None),
         }
@@ -142,7 +142,9 @@ class Chancleta:
         if kwargs["action"] == "store":
             kwargs.update(
                 {
-                    "type": getattr(builtins, arg_type) if (arg_type := entry_data.get("type", None)) else None,
+                    "type": getattr(builtins, arg_type)
+                    if (arg_type := entry_data.get("type", None))
+                    else None,
                     "nargs": entry_data.get("nargs", None),
                     "choices": entry_data.get("choices", None),
                 }
@@ -167,7 +169,6 @@ class Chancleta:
         func(**params)
 
     def parse(self):
-        if not self._validate_read_config():
-            return
+        self._handle_config()
         self._read_args()
         self._run_func()

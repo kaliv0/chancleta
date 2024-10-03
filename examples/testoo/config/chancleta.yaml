@@ -1,5 +1,5 @@
 meta:
-  src: util.commands
+  src: testoo.util.commands
   prog: foo
   version: 0.1.0
   description: Test my new flip flops
