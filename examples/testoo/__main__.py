@@ -1,4 +1,4 @@
-from chancleta.parser import Chancleta
+from chancleta import Chancleta
 
 
 def main():
