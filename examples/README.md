@@ -1,13 +1,25 @@
-# Dummy project for testing <i>chancleta</i>
+## Dummy project for testing <i>chancleta</i>
 
-echo:<br>
-chl echo hello ! -d ", " -o panda -n 43
+You can find the config files in all supported formats inside <i>"examples/testoo/config/"</i>.
 
-yes:<br>
-chl yes hello -r
+The main command for this project is <b>chl</b>. You can play around with the different subcommands (configured via <i>chancleta</i>) using the following code snippets:
 
-no:<br>
-chl no hi there -o John Doe -l
+- for echo try:
+```shell
+$ chl echo hello ! -d ", " -o panda -n 43
+```
 
-maybe:<br>
-chl maybe 3 -o 1 2 2 1
+- for yes:
+```shell
+$ chl yes hello -r
+```
+
+- no:
+```shell
+$ chl no hi there -o John Doe -l
+```
+
+- maybe:
+```shell
+$ chl maybe 3 -o 1 2 2 1
+```

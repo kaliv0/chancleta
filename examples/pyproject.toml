@@ -4,9 +4,9 @@ requires = ["setuptools>=68.2.0", "wheel"]
 
 [project]
 authors = [
-  {name = "Kaloyan Ivanov", email = "kaloyan.ivanov88@gmail.com"},
+    { name = "Kaloyan Ivanov", email = "kaloyan.ivanov88@gmail.com" },
 ]
-description = ""
+description = "Dummy project for testing chancleta library"
 name = "testoo"
 version = "0.1.0"
 
