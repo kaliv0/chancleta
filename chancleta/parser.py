@@ -2,7 +2,8 @@ import os
 
 
 class Chancleta:
-    CONFIG_FILES = ["chancleta.toml", "chancleta.json", "chancleta.yaml", "chancleta.xml"]
+    CONFIG_FILE = "chancleta"
+    CONFIG_FORMATS = [".toml", ".json", ".yaml", ".xml"]
 
     EMPTY_CONFIG_ERROR = "Empty configuration file {config_path}"
     MISSING_CONFIG_ERROR = "Missing configuration file in {cwd}"
@@ -14,7 +15,6 @@ class Chancleta:
     def __init__(self, cwd=os.getcwd()):
         self.cwd = cwd
         self.data = None
-        self.config_type = None
         self.parser = None
         self.subparsers = None
         self.func_src = None
@@ -22,8 +22,8 @@ class Chancleta:
 
     # ### config ###
     def _handle_config(self):
-        for config in self.CONFIG_FILES:
-            config_path = os.path.join(self.cwd, config)
+        for config_fmt in self.CONFIG_FORMATS:
+            config_path = os.path.join(self.cwd, f"{self.CONFIG_FILE}{config_fmt}")
             if not os.path.exists(config_path):
                 continue
             if not os.path.getsize(config_path):
@@ -51,7 +51,6 @@ class Chancleta:
                     import xmltodict
 
                     self.data = xmltodict.parse(f)["root"]
-        self.config_type = extension[1:]
         return bool(self.data)
 
     # ### CLI ###
