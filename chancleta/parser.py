@@ -141,9 +141,9 @@ class Chancleta:
         if kwargs["action"] == "store":
             kwargs.update(
                 {
-                    "type": getattr(builtins, arg_type)
-                    if (arg_type := entry_data.get("type", None))
-                    else None,
+                    "type": (
+                        getattr(builtins, arg_type) if (arg_type := entry_data.get("type", None)) else None
+                    ),
                     "nargs": entry_data.get("nargs", None),
                     "choices": entry_data.get("choices", None),
                 }
